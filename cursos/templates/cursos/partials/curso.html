@@ -1,0 +1,65 @@
+<div class="curso curso-list-item">
+    <div class="curso-cover">
+        <a href="{% url 'cursos:curso' curso.id %}">
+            {% if is_detail_page is not True %}
+                <img src="{{ curso.cover.tumb }}">
+            {% endif %}
+            {% if is_detail_page is True %}
+                <img src="{{ curso.cover.url }}">
+            {% endif %}
+        </a>
+    </div>
+    <div class="curso-title-container">
+        <h2 class="curso-title">
+            <a href="{% url 'cursos:curso' curso.id %}">
+                {{ curso.title }}
+            </a>
+        </h2>
+    </div>
+
+    <div class="curso-category">
+        <span class="curso-category-item">
+            <i class="fas fa-graduation-cap"></i>
+            <span>{{ curso.category.name }}</span>
+        </span>
+        <span class="curso-category-item">
+            <i class="fas fa-laptop"></i>
+            <span>{{ curso.category.type }}</span>
+        </span>
+    </div>
+
+    <div class="curso-content">
+        <p>{{ curso.short_description }}</p>
+    </div>
+
+    <div class="curso-time-container">
+        <div class="curso-time curso-preparation">
+            <h3 class="curso-time-title"><i class="fas fa-hourglass"></i> Tempo</h3>
+            <div class="curso-time-text">
+                {{ curso.time_description }} 
+            </div>
+        </div>
+        <div class="curso-time curso-servings">
+            <h3 class="curso-time-title"><i class="fas fa-clock"></i> Carga Horária</h3>
+            <div class="curso-time-text">
+                {{ curso.hours_description }}
+            </div>
+        </div>
+    </div>
+
+    {% if is_detail_page is not True %}
+        <footer class="curso-footer">
+            <a class="curso-read-more button button-dark button-full-width" href="{% url 'cursos:curso' curso.id %}">
+                <i class="fas fa-eye"></i>
+                <span>ver mais...</span>
+            </a>
+        </footer>
+    {% endif %}
+
+    {% if is_detail_page is True %}
+        <div class="preparation-steps">
+            {{ curso.long_description|safe }}
+        </div>
+    {% endif %}
+
+</div>
