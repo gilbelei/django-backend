@@ -6,6 +6,10 @@
     <div class="main-content main-content-list container">
         {% for curso in cursos %}
             {% include 'cursos/partials/curso.html' %}
+        {% empty %}
+            <div class="center m-y">
+                <h1>Nenhum curso encontrado. </h1>
+            </div>
         {% endfor %}
     </div>
 {% endblock content %}

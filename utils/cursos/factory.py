@@ -20,7 +20,7 @@ def make_curso():
         'time_description': fake.random_number(digits=2, fix_len=True),
         'hours_description': fake.random_number(digits=4, fix_len=True),
         'long_description': fake.text(3000),
-        'category': {
+        'categoria': {
             'name': fake.text(20),
             'type': fake.text(10),
         },

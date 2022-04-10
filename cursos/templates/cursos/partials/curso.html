@@ -1,11 +1,15 @@
 <div class="curso curso-list-item">
-    <div class="curso-cover">
+    <div class="curso-cover">        
         <a href="{% url 'cursos:curso' curso.id %}">
             {% if is_detail_page is not True %}
-                <img src="{{ curso.cover.tumb }}">
+                {% if curso.cover_tumb %}
+                    <img src="{{ curso.cover_tumb.url }}">
+                {% endif %}
             {% endif %}
             {% if is_detail_page is True %}
-                <img src="{{ curso.cover.url }}">
+                {% if curso.cover %}
+                    <img src="{{ curso.cover.url }}">
+                {% endif %}
             {% endif %}
         </a>
     </div>
@@ -17,15 +21,21 @@
         </h2>
     </div>
 
-    <div class="curso-category">
-        <span class="curso-category-item">
-            <i class="fas fa-graduation-cap"></i>
-            <span>{{ curso.category.name }}</span>
-        </span>
-        <span class="curso-category-item">
-            <i class="fas fa-laptop"></i>
-            <span>{{ curso.category.type }}</span>
-        </span>
+    <div class="curso-categoria">
+        {% if curso.categoria is not None %}
+            <span class="curso-categoria-item">
+                <a href="{% url 'cursos:categoria' curso.categoria.id %}">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>{{ curso.categoria.name }}</span>
+                </a>
+            </span>
+            <span class="curso-categoria-item">
+                <a href="{% url 'cursos:categoria' curso.categoria.id %}">
+                    <i class="fas fa-laptop"></i>
+                    <span>{{ curso.categoria.type }}</span>
+                </a>
+            </span>
+        {% endif %}
     </div>
 
     <div class="curso-content">
@@ -57,8 +67,12 @@
     {% endif %}
 
     {% if is_detail_page is True %}
-        <div class="preparation-steps">
-            {{ curso.long_description|safe }}
+        <div class="long-description">
+            {% if curso.description_is_html is True %}
+                {{ curso.long_description|safe }}
+            {% else %}
+                {{ curso.long_description|linebreaksbr }}
+            {% endif %}
         </div>
     {% endif %}
 

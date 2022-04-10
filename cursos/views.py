@@ -1,28 +1,38 @@
-from django.shortcuts import render
-from utils.curso.factory import make_cursos
-from utils.cursos.factory import make_curso
+from django.shortcuts import get_list_or_404, get_object_or_404, render
+
+from cursos.models import Curso
 
 
 # Create your views here.
 def home(request):
+    cursos = Curso.objects.filter(
+        is_published=True,
+    ).order_by('id')
+
     return render(request, 'cursos/pages/home.html', context={
-        'cursos': make_cursos(),
+        'cursos': cursos,
+        'is_detail_page': False,
     })
 
 
 def curso(request, id):
-    cursos = make_cursos()
-    list_keys = [id]
-    curso = list(filter(lambda d: d['id'] in list_keys, cursos))
+    curso = get_object_or_404(Curso, pk=id, is_published=True,)
 
     return render(request, 'cursos/pages/curso-view.html', context={
-        'curso': curso[0],
+        'curso': curso,
         'is_detail_page': True,
     })
 
 
-def cursos(request, id):
-    return render(request, 'cursos/pages/curso-view.html', context={
-        'curso': make_curso(),
-        'is_detail_page': True,
+def categoria(request, categoria_id):
+    cursos = get_list_or_404(
+        Curso.objects.filter(
+            categoria__id=categoria_id,
+            is_published=True,
+        ).order_by('id')
+    )
+
+    return render(request, 'cursos/pages/categoria.html', context={
+        'cursos': cursos,
+        'title': f'{cursos[0].categoria.name} - {cursos[0].categoria.type} | '
     })
